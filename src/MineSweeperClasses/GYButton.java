@@ -10,7 +10,8 @@ public class GYButton extends JButton{
 	
 	private int val;
 	
-	public GYButton(int row, int col, int val){
+	public GYButton(int row, int col, int val, Icon x){
+		super(x);
 		this.row = row;
 		this.col = col;
 		this.val = val;
