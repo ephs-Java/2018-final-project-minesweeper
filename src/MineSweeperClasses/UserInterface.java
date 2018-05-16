@@ -1,4 +1,5 @@
 package MineSweeperClasses;
+
 import java.awt.*;
 import java.awt.FlowLayout;
 import javax.swing.*;
