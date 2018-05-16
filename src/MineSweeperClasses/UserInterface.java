@@ -1,7 +1,15 @@
 package MineSweeperClasses;
-
 import java.awt.*;
+import java.awt.FlowLayout;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import javax.swing.JOptionPane;
 import java.awt.event.*;
 
 public class UserInterface {
@@ -21,11 +29,15 @@ public class UserInterface {
 		
 		for(int r = 0; r < Buttons.length; r++){
 			for(int c = 0; c < Buttons[0].length; c++){
-				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal());
+				Icon b = new ImageIcon(getClass().getResource("broom.jpg"));
+				Image image = ((ImageIcon) b).getImage(); // transform it 
+				Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+				b = new ImageIcon(newimg);
+				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal(), b);
 				this.window.add(this.Buttons[r][c]);
 			}
 		}
-
+		
 		setButtons(this.grid);
 		this.window.pack();
 		this.window.setVisible(true);
@@ -47,9 +59,17 @@ public class UserInterface {
 			GYButton current = (GYButton) e.getSource();
 			
 			if(grid[current.getRow()][current.getCol()].isMine()){
-				current.setText("Bomb");
+				Icon x = new ImageIcon(getClass().getResource("bomb_PNG26.png"));
+				Image image = ((ImageIcon) x).getImage(); // transform it 
+				Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+				x = new ImageIcon(newimg);
+				current.setIcon(x);
 			} else {
-				current.setText("" + current.getVal());
+				Icon z = new ImageIcon(getClass().getResource("" + current.getVal() + ".png"));
+				Image image = ((ImageIcon) z).getImage(); // transform it 
+				Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+				z = new ImageIcon(newimg);
+				current.setIcon(z);
 			}
 		}
 	}
