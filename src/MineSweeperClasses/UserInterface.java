@@ -17,11 +17,13 @@ public class UserInterface {
 	
 	GYButton[][] Buttons;
 	Tile[][] grid;
+	point[] tests;
 
 	private JFrame window = new JFrame("Minesweeper");
 	
-	public UserInterface(Tile[][] grid){
+	public UserInterface(Tile[][] grid, point[] tests){
 		
+		this.tests = tests;
 		this.grid = grid;
 		
 		this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,11 +32,7 @@ public class UserInterface {
 		
 		for(int r = 0; r < Buttons.length; r++){
 			for(int c = 0; c < Buttons[0].length; c++){
-				Icon b = new ImageIcon(getClass().getResource("Unclicked.png"));
-				Image image = ((ImageIcon) b).getImage(); // transform it 
-				Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-				b = new ImageIcon(newimg);
-				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal(), b);
+				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal(), new ImageIcon(getClass().getResource("Unclicked.png")));
 				this.Buttons[r][c].setPreferredSize(new Dimension(25, 25));
 				this.window.add(this.Buttons[r][c]);
 			}
@@ -60,23 +58,35 @@ public class UserInterface {
 		public void actionPerformed(ActionEvent e){
 			
 			GYButton current = (GYButton) e.getSource();
+				
+			current.setClicked();
 			
 			if(grid[current.getRow()][current.getCol()].isMine()){
-				Icon x = new ImageIcon(getClass().getResource("bomb.png"));
-				Image image = ((ImageIcon) x).getImage(); // transform it 
-				Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-				x = new ImageIcon(newimg);
-				current.setIcon(x);
-				current.setPreferredSize(new Dimension(25, 25));
+				current.setIcon(new ImageIcon(getClass().getResource("bomb.png")));
 			} else {
-				Icon z = new ImageIcon(getClass().getResource("" + current.getVal() + ".png"));
-				Image image = ((ImageIcon) z).getImage(); // transform it 
-				Image newimg = image.getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-				z = new ImageIcon(newimg);
-				current.setIcon(z);
-				current.setPreferredSize(new Dimension(25, 25));
+				current.setIcon(new ImageIcon(getClass().getResource("" + current.getVal() + ".png")));
+				if(current.getVal() == 0){
+					react(current);
+				}
 			}
+			
+			current.setPreferredSize(new Dimension(25, 25));
 			window.pack();
+		}
+	}
+	public void react(GYButton current){
+		for(int i = 0; i < tests.length; i++){
+			try{
+				
+				GYButton test = Buttons[current.getRow() + tests[i].getX()][current.getCol() + tests[i].getY()];
+				
+				if(!test.isClicked()){
+					test.doClick();
+				}
+			
+			} catch (IndexOutOfBoundsException e) {
+				
+			}
 		}
 	}
 	
