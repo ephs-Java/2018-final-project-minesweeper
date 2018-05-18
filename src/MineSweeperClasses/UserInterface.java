@@ -16,6 +16,7 @@ public class UserInterface {
 	GYButton[][] Buttons;
 	Tile[][] grid;
 	point[] tests;
+	MouseListener2 ml = new MouseListener2();
 
 	private JFrame window = new JFrame("Minesweeper");
 	
@@ -37,41 +38,21 @@ public class UserInterface {
 		}
 		
 		setButtons(this.grid);
-		this.window.pack();
 		this.window.setVisible(true);
 		this.window.setResizable(false);
+		this.window.pack();
 	}
-	
-	MouseListener2 ml = new MouseListener2();
 	
 	public void setButtons(Tile[][] tiles){
 		for(int r = 0; r < Buttons.length; r++){
 			for(int c = 0; c < Buttons[0].length; c++){
 				Buttons[r][c].setText("");
 				Buttons[r][c].addMouseListener(ml);
+				this.window.pack();
 			}
 		}	
 	}
-	public class ClickListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			
-			GYButton current = (GYButton) e.getSource();
-				
-			current.setClicked();
-			
-			if(grid[current.getRow()][current.getCol()].isMine()){
-				current.setIcon(new ImageIcon(getClass().getResource("bomb.png")));
-			} else {
-				current.setIcon(new ImageIcon(getClass().getResource("" + current.getVal() + ".png")));
-				if(current.getVal() == 0){
-					react(current);
-				}
-			}
-			
-			current.setPreferredSize(new Dimension(25, 25));
-			window.pack();
-		}
-	}
+	
 	public void react(GYButton current){
 		for(int i = 0; i < tests.length; i++){
 			try{
@@ -92,9 +73,14 @@ public class UserInterface {
 			}
 		}
 	}
+	
+	public void click(GYButton current){
+		
+	}
 	public class MouseListener2 implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
-			
+		}
+		public void mousePressed(MouseEvent e) {
 			GYButton current = (GYButton) e.getSource();
 			
 			current.setClicked();
@@ -114,8 +100,6 @@ public class UserInterface {
 			} else if(SwingUtilities.isRightMouseButton(e)){
 				current.setIcon(new ImageIcon(getClass().getResource("Flag.png")));
 			}
-		}
-		public void mousePressed(MouseEvent e) {
 		}
 		public void mouseReleased(MouseEvent e) {
 		}
