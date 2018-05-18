@@ -31,8 +31,9 @@ public class UserInterface {
 		
 		for(int r = 0; r < Buttons.length; r++){
 			for(int c = 0; c < Buttons[0].length; c++){
-				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal(), new ImageIcon(getClass().getResource("Unclicked.png")));
+				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal(), grid[r][c].isMine());
 				this.Buttons[r][c].setPreferredSize(new Dimension(25, 25));
+				this.Buttons[r][c].setIcon(new ImageIcon(getClass().getResource("Unclicked.png")));
 				this.window.add(this.Buttons[r][c]);
 			}
 		}
@@ -74,9 +75,26 @@ public class UserInterface {
 		}
 	}
 	
-	public void click(GYButton current){
-		
+	public void end(){
+		for(int r = 0; r < Buttons.length; r++){
+			for(int c = 0; c < Buttons[0].length; c++){
+				
+				GYButton current = Buttons[r][c];
+				
+				if(!current.isClicked()){
+					current.setClicked(true);
+					if(current.isMine() && !current.isFlagged()){
+						current.setIcon(new ImageIcon(getClass().getResource("bombMissed.png")));
+					} else if(current.isFlagged() && !current.isMine()){
+						current.setIcon(new ImageIcon(getClass().getResource("FlagError.png")));
+					} else if(!current.isFlagged()){
+						current.setImage();
+					}
+				}
+			}
+		}
 	}
+	
 	public class MouseListener2 implements MouseListener {
 		public void mouseClicked(MouseEvent e) {
 		}
@@ -85,17 +103,15 @@ public class UserInterface {
 			
 			if(SwingUtilities.isLeftMouseButton(e) && !current.isFlagged()) {
 				current.setClicked(true);
-				if(grid[current.getRow()][current.getCol()].isMine()){
-					current.setIcon(new ImageIcon(getClass().getResource("bomb.png")));
-				} else {
-					current.setIcon(new ImageIcon(getClass().getResource("" + current.getVal() + ".png")));
-					if(current.getVal() == 0){
-						react(current);
-					}
+				current.setImage();
+				if(current.getVal() == 0 && !current.isMine()){
+					react(current);
 				}
-				
 				current.setPreferredSize(new Dimension(25, 25));
 				window.pack();
+				if(current.isMine()){
+					end();
+				}
 			} 
 			if(SwingUtilities.isRightMouseButton(e) && !current.isClicked()){
 				if(!current.isFlagged()){
