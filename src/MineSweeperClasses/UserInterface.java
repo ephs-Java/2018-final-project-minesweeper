@@ -3,8 +3,6 @@ package MineSweeperClasses;
 import java.awt.*;
 import java.awt.FlowLayout;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.Icon;
@@ -44,13 +42,13 @@ public class UserInterface {
 		this.window.setResizable(false);
 	}
 	
-	ClickListener cl = new ClickListener();
+	MouseListener2 ml = new MouseListener2();
 	
 	public void setButtons(Tile[][] tiles){
 		for(int r = 0; r < Buttons.length; r++){
 			for(int c = 0; c < Buttons[0].length; c++){
 				Buttons[r][c].setText("");
-				Buttons[r][c].addActionListener(cl);
+				Buttons[r][c].addMouseListener(ml);
 			}
 		}	
 	}
@@ -79,15 +77,53 @@ public class UserInterface {
 			try{
 				
 				GYButton test = Buttons[current.getRow() + tests[i].getX()][current.getCol() + tests[i].getY()];
-				
-				if(!test.isClicked()){
-					test.doClick();
+				if(!test.isClicked()) {
+					if(test.getVal() == 0) {
+						test.setIcon(new ImageIcon(getClass().getResource("" + test.getVal() + ".png")));
+						test.setClicked();
+						react(test);
+					} else {
+						test.setClicked();
+						test.setIcon(new ImageIcon(getClass().getResource("" + test.getVal() + ".png")));
+					}	
 				}
-			
 			} catch (IndexOutOfBoundsException e) {
 				
 			}
 		}
+	}
+	public class MouseListener2 implements MouseListener {
+		public void mouseClicked(MouseEvent e) {
+			
+			GYButton current = (GYButton) e.getSource();
+			
+			current.setClicked();
+			
+			if(SwingUtilities.isLeftMouseButton(e)) {
+				if(grid[current.getRow()][current.getCol()].isMine()){
+					current.setIcon(new ImageIcon(getClass().getResource("bomb.png")));
+				} else {
+					current.setIcon(new ImageIcon(getClass().getResource("" + current.getVal() + ".png")));
+					if(current.getVal() == 0){
+						react(current);
+					}
+				}
+				
+				current.setPreferredSize(new Dimension(25, 25));
+				window.pack();
+			} else if(SwingUtilities.isRightMouseButton(e)){
+				current.setIcon(new ImageIcon(getClass().getResource("Flag.png")));
+			}
+		}
+		public void mousePressed(MouseEvent e) {
+		}
+		public void mouseReleased(MouseEvent e) {
+		}
+		public void mouseEntered(MouseEvent e) {
+		}
+		public void mouseExited(MouseEvent e) {
+		}
+		
 	}
 	
 }
