@@ -9,11 +9,11 @@ public class GYButton extends JButton{
 	private int col;
 	
 	private int val;
-	private boolean isClicked;
+	private boolean isClicked = false;
+	private boolean isFlagged = false;
 	
 	public GYButton(int row, int col, int val, Icon x){
 		super(x);
-		this.isClicked = false;
 		this.row = row;
 		this.col = col;
 		this.val = val;
@@ -31,7 +31,13 @@ public class GYButton extends JButton{
 	public boolean isClicked(){
 		return this.isClicked;
 	}
-	public void setClicked(){
-		this.isClicked = true;
+	public void setClicked(boolean b){
+		this.isClicked = b;
+	}
+	public boolean isFlagged(){
+		return this.isFlagged;
+	}
+	public void setIsFlagged(boolean b){
+		this.isFlagged = b;
 	}
 }

@@ -61,10 +61,10 @@ public class UserInterface {
 				if(!test.isClicked()) {
 					if(test.getVal() == 0) {
 						test.setIcon(new ImageIcon(getClass().getResource("" + test.getVal() + ".png")));
-						test.setClicked();
+						test.setClicked(true);
 						react(test);
 					} else {
-						test.setClicked();
+						test.setClicked(true);
 						test.setIcon(new ImageIcon(getClass().getResource("" + test.getVal() + ".png")));
 					}	
 				}
@@ -83,9 +83,8 @@ public class UserInterface {
 		public void mousePressed(MouseEvent e) {
 			GYButton current = (GYButton) e.getSource();
 			
-			current.setClicked();
-			
-			if(SwingUtilities.isLeftMouseButton(e)) {
+			if(SwingUtilities.isLeftMouseButton(e) && !current.isFlagged()) {
+				current.setClicked(true);
 				if(grid[current.getRow()][current.getCol()].isMine()){
 					current.setIcon(new ImageIcon(getClass().getResource("bomb.png")));
 				} else {
@@ -97,8 +96,15 @@ public class UserInterface {
 				
 				current.setPreferredSize(new Dimension(25, 25));
 				window.pack();
-			} else if(SwingUtilities.isRightMouseButton(e)){
-				current.setIcon(new ImageIcon(getClass().getResource("Flag.png")));
+			} 
+			if(SwingUtilities.isRightMouseButton(e) && !current.isClicked()){
+				if(!current.isFlagged()){
+					current.setIsFlagged(true);
+					current.setIcon(new ImageIcon(getClass().getResource("Flag.png")));
+				} else {
+					current.setIsFlagged(false);
+					current.setIcon(new ImageIcon(getClass().getResource("Unclicked.png")));
+				}
 			}
 		}
 		public void mouseReleased(MouseEvent e) {
