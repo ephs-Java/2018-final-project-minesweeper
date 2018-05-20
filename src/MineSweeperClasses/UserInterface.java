@@ -19,6 +19,9 @@ public class UserInterface {
 	MouseListener2 ml = new MouseListener2();
 
 	private JFrame window = new JFrame("Minesweeper");
+	private JPanel mainPanel = new JPanel();
+	private JPanel gamePanel = new JPanel();
+	private JPanel menuBarPanel = new JPanel();
 	
 	public UserInterface(Tile[][] grid, point[] tests){
 		
@@ -26,15 +29,24 @@ public class UserInterface {
 		this.grid = grid;
 		
 		this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.window.setLayout(new GridLayout(grid.length, grid[0].length));
 		this.Buttons = new GYButton[grid.length][grid[0].length];
+		
+		menuBarPanel.setPreferredSize(new Dimension(grid.length * 25, 50));
+		gamePanel.setPreferredSize(new Dimension(grid.length * 25, grid[0].length * 25));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		
+		window.add(mainPanel);
+		mainPanel.add(menuBarPanel);
+		mainPanel.add(gamePanel);
+		
+		gamePanel.setLayout(new GridLayout(grid.length, grid[0].length));
 		
 		for(int r = 0; r < Buttons.length; r++){
 			for(int c = 0; c < Buttons[0].length; c++){
 				this.Buttons[r][c] = new GYButton(r, c, grid[r][c].getVal(), grid[r][c].isMine());
 				this.Buttons[r][c].setPreferredSize(new Dimension(25, 25));
 				this.Buttons[r][c].setIcon(new ImageIcon(getClass().getResource("Unclicked.png")));
-				this.window.add(this.Buttons[r][c]);
+				this.gamePanel.add(this.Buttons[r][c]);
 			}
 		}
 		
