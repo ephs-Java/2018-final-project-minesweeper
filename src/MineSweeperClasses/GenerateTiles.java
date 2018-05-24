@@ -7,23 +7,17 @@ public class GenerateTiles {
 	Tile[][] tiles;
 	point[] tests;
 	
-	public GenerateTiles(String difficulty){
+	public GenerateTiles(int size){
 		
 		Random r = new Random();
 		
-		if(difficulty.equals("easy")){
-			tiles = new Tile[7][7];
-		} else if(difficulty.equals("medium")){
-			tiles = new Tile[13][13];
-		} else {
-			tiles = new Tile[20][20];
-		}
+				tiles = new Tile[size][size];
 		
 		//this for loop generates the mines and assigns each tile in the 2D array to a new mine
 		
 		for(int row = 0; row < tiles.length; row++){
 			for(int col = 0; col < tiles.length; col++){
-				tiles[row][col] = new Tile(r.nextInt(5));
+				tiles[row][col] = new Tile(r.nextInt(7));
 			}
 		}
 		
