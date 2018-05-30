@@ -14,8 +14,8 @@ public class Tile {
 	public void setVal(int x){
 		this.val = x;
 	}
-	public void setMine(){
-		this.isMine = true;
+	public void setMine(boolean b){
+		this.isMine = b;
 	}
 
 	public boolean isMine() {

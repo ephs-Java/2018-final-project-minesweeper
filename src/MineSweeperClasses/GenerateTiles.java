@@ -7,9 +7,11 @@ public class GenerateTiles {
 	Tile[][] tiles;
 	point[] tests;
 	
+	private Random r;
+	
 	public GenerateTiles(int size){
 		
-		Random r = new Random();
+		this.r = new Random();
 		
 				tiles = new Tile[size][size];
 		
@@ -17,14 +19,36 @@ public class GenerateTiles {
 		
 		for(int row = 0; row < tiles.length; row++){
 			for(int col = 0; col < tiles.length; col++){
-				tiles[row][col] = new Tile(r.nextInt(7));
+				tiles[row][col] = new Tile(r.nextInt(10));
 			}
 		}
-		
+	
+		generateMines();
 		genTileVal();
 		
-		UserInterface UI = new UserInterface(tiles, tests);
+		UserInterface UI = new UserInterface(tiles, tests, this);
 		
+	}
+	
+	public void generateMines(){
+		for(int row = 0; row < tiles.length; row++){
+			for(int col = 0; col < tiles.length; col++){
+				tiles[row][col] = new Tile(r.nextInt(10));
+			}
+		}
+	}
+	
+	public void resetTiles(){
+		for(int row = 0; row < tiles.length; row++){
+			for(int col = 0; col < tiles.length; col++){
+				tiles[row][col].setMine(false);
+				tiles[row][col].setVal(0);
+			}
+		}
+	}
+	
+	public Tile[][] getTiles(){
+		return tiles;
 	}
 	
 	//This method generates the value for each tile in the 2D array of tiles

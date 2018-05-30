@@ -15,18 +15,23 @@ public class GYButton extends JButton{
 	private ImageIcon icon;
 	private boolean isMine;
 	
-	public GYButton(int row, int col, int val, boolean isMine){
+	public GYButton(){
+	}
+	public void setData(int row, int col, int val, boolean isMine){
 		this.row = row;
 		this.col = col;
 		this.val = val;
 		this.isMine = isMine;
+		this.isClicked = false;
+		this.isFlagged = false;
+	}
+	public void setImageType(){
 		if(this.isMine){
 			this.icon = new ImageIcon(getClass().getResource("bomb.png"));
 		} else {
 			this.icon = new ImageIcon(getClass().getResource("" + this.val + ".png"));
 		}
 	}
-	
 	public int getRow(){
 		return this.row;
 	}
@@ -59,3 +64,13 @@ public class GYButton extends JButton{
 		setIcon(this.icon);
 	}
 }
+
+
+
+
+
+
+
+
+
+
