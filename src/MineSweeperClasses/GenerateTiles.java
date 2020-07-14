@@ -5,6 +5,7 @@ import java.util.Random;
 public class GenerateTiles {
 	
 	Tile[][] tiles;
+	point[] tests;
 	
 	public GenerateTiles(String difficulty){
 		
@@ -28,7 +29,7 @@ public class GenerateTiles {
 		
 		genTileVal();
 		
-		UserInterface UI = new UserInterface(tiles);
+		UserInterface UI = new UserInterface(tiles, tests);
 		
 	}
 	
@@ -37,6 +38,7 @@ public class GenerateTiles {
 	public void genTileVal(){
 		
 		point[] tests = new point[8];
+		this.tests = tests;
 		
 		tests[0] = new point(1, 0);
 		tests[1] = new point(1, 1);
